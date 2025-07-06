@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Array Rotation Visualizer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f5f5f5;
+    }
+
+    h1 {
+      color: #333;
+      margin-top: 20px;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+
+    .array-box {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .array-element {
+      width: 40px;
+      height: 40px;
+      background-color: #4caf50;
+      color: white;
+      margin: 5px;
+      line-height: 40px;
+      border-radius: 5px;
+      transition: transform 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <h1>Array Rotation Visualizer</h1>
+  
+  <input type="text" id="arrayInput" placeholder="Enter elements in the Array">
+  <input type="number" id="rotateBy" placeholder="Rotate by (K)">
+  <button onclick="rotateArray()">Rotate</button>
+
+  <div class="array-box" id="arrayBox"></div>
+
+  <script>
+    function displayArray(arr) {
+      const box = document.getElementById("arrayBox");
+      box.innerHTML = "";
+      arr.forEach(num => {
+        const div = document.createElement("div");
+        div.className = "array-element";
+        div.textContent = num;
+        box.appendChild(div);
+      });
+    }
+
+    function rotateArray() {
+      const input = document.getElementById("arrayInput").value;
+      let arr = input.split(",").map(Number);
+      const k = parseInt(document.getElementById("rotateBy").value) % arr.length;
+
+      // JavaScript rotation (right rotate)
+      const rotated = arr.slice(-k).concat(arr.slice(0, -k));
+      displayArray(rotated);
+    }
+  </script>
+
+  <hr>
+
+  <h2>Equivalent C++ Code for Array Rotation</h2>
+  <pre style="text-align:left; width:80%; margin: auto; background-color:#eee; padding: 10px;">
+// Online C++ compiler to run C++ program online
+
+#include <iostream>
+using namespace std;
+
+void rev(int arr1[], int start, int end);
+void rotate(int arr2[], int n, int k);
+
+int main() {
+    int n;
+    cout << "Enter the size of the array: ";
+    cin >> n;
+
+    int* arr = new int[n];
+    cout << "Enter the array elements: " << endl;
+
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    int k;
+    cout << "Enter the rotation value: ";
+    cin >> k;
+
+    // If k > n, reduce it
+    k = k % n;
+
+    rotate(arr, n, k);
+
+    cout << "Rotated array: ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << "\t";
+    }
+
+    delete[] arr;
+    return 0;
+}
+
+void rev(int arr1[], int start, int end) {
+    while (start < end) {
+        int temp = arr1[start];
+        arr1[start] = arr1[end];
+        arr1[end] = temp;
+        start++;
+        end--;
+    }
+}
+
+void rotate(int arr2[], int n, int k) {
+    // Reverse first part
+    rev(arr2, 0, n - k - 1);
+    // Reverse second part
+    rev(arr2, n - k, n - 1);
+    // Reverse the entire array
+    rev(arr2, 0, n - 1);
+}
+  </pre>
+</body>
+</html>
